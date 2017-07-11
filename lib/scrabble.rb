@@ -11,7 +11,7 @@ class Scrabble
         "Y" => 4, "Z" => 10
     }
     
-    def self.score(word)
+    def score(word)
         return 0 if (word == "") or (word == nil)
         word = word.upcase
         word_score = 0
