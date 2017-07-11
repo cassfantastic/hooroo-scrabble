@@ -11,13 +11,27 @@ class Scrabble
         "Y" => 4, "Z" => 10
     }
     
-    def score(word)
+    def score(
+        word,
+        letterScoreModifier: false,
+        letterScoreMults: [0],
+        wordScoreModifier: false,
+        wordScoreMults: [0]
+    )
         return 0 if (word == "") or (word == nil)
         word = word.upcase
         word_score = 0
-        word.each_char do |c|
+        word.each_char.each_with_index do |c, c_index|
             return 0 if (LetterValues[c] == nil)
-            word_score += LetterValues[c]
+            if (letterScoreModifier)
+                word_score += LetterValues[c]*letterScoreMults[c_index]
+            else
+                word_score += LetterValues[c]
+            end
+        end
+        if wordScoreModifier
+            wordScoreMultiplier = wordScoreMults.reduce(:*)
+            return word_score * wordScoreMultiplier
         end
         return word_score
     end
